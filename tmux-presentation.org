@@ -1,11 +1,5 @@
 #+TITLE: Cure Terminal Cancer with tmux!
-#+SUBTITLE: ...or how tmux can make you a bit more happy and productive
-
-* Overview
-
-- Getting Started
-- Local Session Management
-- Remote Session Management
+#+SUBTITLE: Amaze your friends with this one trick
 
 * What is it?
 
@@ -45,7 +39,7 @@
 - Defaults to Ctrl+b
 - Customizable to avoid carpal tunnel!
 
-* Running Commands
+* Using the Prefix Key
 
 - Use the tmux command prompt
   : Prefix + :
@@ -175,7 +169,7 @@
   - copy-mode-vi, the evil cult of vi
   - The all important clock mode!
 
-* Choosing a copy mode
+* Choosing between good and evil
 
 - Emacs is the default
   unless you set $EDITOR or $VISUAL
@@ -184,29 +178,27 @@
  
 * Using the copy mode in general
 
-- Enter copy mode
+1. Enter copy mode
   : Prefix + [
-- Select text to copy
-- Copy text
-- Paste text
+2. Select text to copy
+3. Copy text
+4. Paste text
   : Prefix + ]
 
 * Using the evil/vi copy mode
 
 - Example: cowsay tmux rules!
-- Enter copy-mode
+1. Enter copy-mode
   : Prefix + [
-- Start selection (Space)
-- Select text using vi navigation
-- Copy selection (Enter)
-- Paste
+2. Start selection (Space) then vi navigation
+3. Copy selection (Enter)
+4. Paste
   : Prefix + ]
 
 * Do I need to remember all this stuff?
 
 - Online help
   : Prefix + ?
-  - emacs or vi navigation keys ('q' to exit)
   - C is Ctrl
   - M is Meta/Alt
 - Man Pages
@@ -256,9 +248,9 @@
 - Connect to existing session
   : ssh <user>@<server> -t "tmux attach"
 - Who's connected?
-  : tmux list-clients
+  : list-clients
 - Kick out the other guy
-  : tmux detach-client /dev/pts/<number>
+  : detach-client -t /dev/pts/<number>
 - Makes a really bad google docs
 
 * Activity Notification
@@ -307,7 +299,7 @@
     |_|  |_| |_|\__,_|_| |_|_|\_\___(_)
                                        
 
-
+* End
 
 === Other stuff ===
 
