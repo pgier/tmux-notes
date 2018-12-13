@@ -1,0 +1,338 @@
+#+TITLE: Cure Terminal Cancer with tmux!
+#+SUBTITLE: ...or how tmux can make you a bit more happy and productive
+
+* Overview
+
+- Getting Started
+- Local Session Management
+- Remote Session Management
+
+* What is it?
+
+- Terminal multiplexer 
+- Combine many terminals into one view
+- Easily navigate using keyboard shortcuts
+  - Don't touch that dirty mouse!
+- What does tmux look like?
+
+* Panes, Windows and Sessions
+
+- window - view running in terminal emulator
+- panes - splits the windows into multiple shells 
+- session - maintains multiple windows
+
+* Installing tmux
+
+- yum/dnf install tmux
+- apt-get install tmux
+- build from source
+- etc...
+ 
+* Local terminal management
+
+- Let's see what's running
+  : tmux list-sessions
+- Enter the tmux
+  : tmux attach -t <session-number>
+- Escape the tmux
+  - We need the KEY!
+
+* One key to rule them all!
+
+- The Prefix Key
+- Called "Prefix" because it precedes
+  all tmux commands
+- Defaults to Ctrl+b
+- Customizable to avoid carpal tunnel!
+
+* Running Commands
+
+- Use the tmux command prompt
+  : Prefix + :
+- Detach from the current session
+  : detach-client
+- Run a shell command
+  : run-shell "whoami"
+- Cancel with 'q' or Ctrl+c
+
+* Creating Panes (using commands)
+
+- Split current window vertically (default)
+  : split-window -v
+- Split current window horizontally
+  : split-window -h
+- Kill the current pane
+  : kill-pane
+- Or just exit the shell
+  (Ctrl-d or exit)
+
+* No one want to do all that typing!
+
+- Split current window vertically
+  : Prefix + "
+- Split current window horizontally
+  : Prefix + %
+- Kill the current pane (with confirmation)
+  : Prefix + x
+
+* Maintain focus
+
+- Lots of options!
+- Cycle focus to the next pane (other pane)
+  : Prefix + o
+- Move directionally to a pane
+  : Prefix + <arrow keys>
+- Select panes by number
+  : Prefix + q, #
+
+* What else can we do with panes?
+
+- Rotate panes
+  : Prefix + C-o
+- Zoom In/Out
+  : Prefix + z
+- Use pre-defined layouts (M is Alt)
+  : Prefix + M-1
+
+* Resizing Panes
+
+- Make a pane larger/smaller via command
+  : resize-pane -L 5
+- Make a pane larger/smaller via shortcut
+  : Prefix + Ctrl-<arrow key>
+- You can even use the mouse to resize panes!
+  (next slide please)
+
+* Enabling the mouse
+
+- Mouse is not enabled by default
+  It's dirty!
+- Enable mouse for pane adjustment
+  : set-option mouse on
+- Other things can also be configured
+
+* Customizing key bindings
+
+- Set key binding for split-window
+  : bind-key / split-window
+- For example, vi like pane navigation
+  : bind-key h select-pane -L
+  : bind-key j select-pane -D
+  : bind-key k select-pane -U
+  : bind-key l select-pane -R
+
+* What else can we customize?
+
+- Hide the status bar
+  : set-option status off
+- Change the active pane highlight color
+  : set-window-option pane-active-border-style
+  :   fg=yellow,bg=blue
+- What's a window-option?
+  
+* Creating Windows
+
+- A window contains panes in a layout
+- Create a new window
+  : new-window
+  : Prefix + c
+- Rename a window
+  : rename-window <name>
+  : Prefix + ,
+  
+* Window Navigation
+
+- Current window indicated in status line
+- Cycle between windows with 'n' and 'p'
+  : Prefix + n
+  : Prefix + p
+- Move directly to a window by its index
+  : Prefix + <#>
+
+* Move panes between windows
+
+- Break a pane out of the current window
+  : Prefix + !
+- Rejoin a pane (no key binding)
+  : join-pane -s :<window>
+- Climb the choose tree!
+  : Prefix + w
+- How to copy text from one pane to another?
+
+* Copying between panes
+
+- There are two copy modes available:
+     GOOD vs EVIL
+- Wait, what are modes?
+  We didn't talk about modes yet!
+
+* What are tmux modes?
+
+- tmux is modal, but not necessarily evil
+  - Default mode, sends directly to the shell
+  - Prefix mode, for sending commands to tmux
+  - copy-mode, the holy church of emacs
+  - copy-mode-vi, the evil cult of vi
+  - The all important clock mode!
+
+* Choosing a copy mode
+
+- Emacs is the default
+  unless you set $EDITOR or $VISUAL
+- Can also set via command
+  : set-window-option mode-keys vi
+ 
+* Using the copy mode in general
+
+- Enter copy mode
+  : Prefix + [
+- Select text to copy
+- Copy text
+- Paste text
+  : Prefix + ]
+
+* Using the evil/vi copy mode
+
+- Example: cowsay tmux rules!
+- Enter copy-mode
+  : Prefix + [
+- Start selection (Space)
+- Select text using vi navigation
+- Copy selection (Enter)
+- Paste
+  : Prefix + ]
+
+* Do I need to remember all this stuff?
+
+- Online help
+  : Prefix + ?
+  - emacs or vi navigation keys ('q' to exit)
+  - C is Ctrl
+  - M is Meta/Alt
+- Man Pages
+  : man tmux
+
+* Saving Configuration
+
+- You don't have to type the same commands
+  for every session
+- User settings are stored in ~/.tmux.conf
+- Load configuration using source-file command
+  : source-file ~/.tmux.conf
+- What about using tmux remotely?
+
+* Start a remote tmux Session
+
+- Use ssh
+  : ssh user@server
+- start tmux
+- open second pane on remote server
+  : Prefix + %
+- what happened?
+
+* Avoid session confusion
+
+- Set prefix key to Ctrl-a
+  : set-option prefix C-a
+- Change color of tmux status bar
+  : set-option status-style bg=cyan
+
+* Powerline Status Bar
+
+- tmux-powerline package in Fedora
+  : dnf install tmux-powerline
+- run powerline-config
+  : powerline-config tmux setup
+
+* Example: watching logs
+
+- Start message server
+  : go run message_server.go
+- Send a message
+  : curl <host>:8080/?message=hi
+
+* One Session/Many Clients
+
+- Connect to existing session
+  : ssh <user>@<server> -t "tmux attach"
+- Who's connected?
+  : tmux list-clients
+- Kick out the other guy
+  : tmux detach-client /dev/pts/<number>
+- Makes a really bad google docs
+
+* Activity Notification
+
+- Turn on activity monitoring
+  : set-window-option -g monitor-activity on
+- Additional activity notification
+  : set-option -g visual-activity on
+- Monitor for silence
+  : set-window-option monitor-silence on
+- Message for silence
+  : set-option visual-silence on
+
+* Hooks
+
+- Hooks can trigger commands on events
+- Bring focus to the completed task
+  : set-hook alert-silence "select-window -t 1"
+- Careful with this!
+  : set-hook -u alert-silence
+
+* Send Keys and Command Prompt
+
+- You can also send keys to a pane
+  : send-keys "echo hello\n"
+  : send-keys "echo hello" C-a
+- This can be combined with command-prompt
+  : bind-key C-m command-prompt -p "name:"
+  :  "send-keys \"cowsay %%!\n\""
+
+* Additional Resources
+
+- Prefix + ?
+- man tmux
+- https://github.com/tmux/tmux
+- [[https://leanpub.com/the-tao-of-tmux/][The Tao of tmux]]
+- [[https://github.com/rothgar/awesome-tmux][Awesome tmux]]
+
+* End
+
+  _______ _                 _        _ 
+ |__   __| |               | |      | |
+    | |  | |__   __ _ _ __ | | _____| |
+    | |  | '_ \ / _` | '_ \| |/ / __| |
+    | |  | | | | (_| | | | |   <\__ \_|
+    |_|  |_| |_|\__,_|_| |_|_|\_\___(_)
+                                       
+
+
+
+=== Other stuff ===
+
+* FAQ
+
+** How can I copy to the system buffer?
+
+You have to do some integration with xclip
+
+
+* Setup Notes
+
+- Create remote Fedora VM
+- copy ip address to presentation dir
+- dnf install golang
+- scp message-server.go
+- start session with the presentation
+- maybe start screenkey
+
+=== Extra Slides ===
+
+* Customize Status Bar
+
+- Move the status bar to the top
+  : set-option status-position top
+- Change the color of the active window
+  : set-window-option window-status-current-fg red
+
